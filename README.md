@@ -22,7 +22,7 @@ The Global Hotel Mapping project is designed to map and manage hotel data from v
 3. Active Virtual Environment
    ```sh
     pipenv shell
-    ``
+    ```
    
 ## Usage
 
@@ -37,14 +37,14 @@ The Global Hotel Mapping project is designed to map and manage hotel data from v
 ### Go to 'find_id' repository and genarate id details for follow database, Here if try to 'grnconnect' hotel. Follow below stap:
    ```bash
      vim get_supplier_hotel_id_list.py  
-   '''
+   ```
    edit 2nd last line this section 'supplier = "grnconnet"'. Here give example for grnconnect supplier.
 
 ### Then go to 'for_supplier' repository and run code as you needed for uploaded data.
     
     ```bash
     python goglobal_data_insert_into_GHM.py
-    ``
+    ```
 
     
 
