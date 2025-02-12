@@ -5,10 +5,15 @@ import os
 
 load_dotenv()
 
+
+FILE_PATH = os.getenv('FIND_ID_FILE_PATH')
+
+
 db_host = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASSWORD')
 db_name = os.getenv('DB_NAME')
+
 
 connection_string = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 engine = create_engine(connection_string)
@@ -31,7 +36,7 @@ def get_unique_id_list(supplier):
     
 def save_id_list_to_file(supplier):
     unique_ids = get_unique_id_list(supplier)
-    file_name = f"D:/Rokon/ofc_git/global_hotel_mapping/static/file/{supplier}_supplier__hotel_id_list.txt"
+    file_name = os.path.join(FILE_PATH, f"{supplier}_supplier_hotel_id_list.txt")
     
     with open(file_name, "w") as file:
         for unica_id in unique_ids:
