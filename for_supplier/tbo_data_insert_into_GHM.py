@@ -1,17 +1,3 @@
-'''
-    Description: This script is used to update the global_hotel_mapping table with data from Giata API.
-    It reads a list of hotel IDs from a file and updates the corresponding records in the database.
-    The script is designed to be run for a specific supplier code and uses the GataAPI class to fetch data.
-
-    Usage: python goglobal_data_insert_into_GHM.py
-
-    Database: MySQL
-    Database Table: global_hotel_mapping
-
-'''
-
-
-
 import os
 import requests
 import xml.etree.ElementTree as ET
@@ -22,7 +8,9 @@ import time
 
 load_dotenv()
 
+
 FILE_PATH = os.getenv('FIND_ID_FILE_PATH')
+
 # Database connection
 db_host = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
@@ -32,9 +20,9 @@ connection_string = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 # engine = create_engine(connection_string)
 engine = create_engine(
     connection_string,
-    pool_recycle=1800,  
+    pool_recycle=1800,
     pool_pre_ping=True,
-    connect_args={"connect_timeout": 30} 
+    connect_args={"connect_timeout": 30}
 )
 metadata = MetaData()
 Session = sessionmaker(bind=engine)
@@ -43,8 +31,8 @@ global_hotel_mapping = Table("global_hotel_mapping", metadata, autoload_with=eng
 
 
 
-def get_a_column_info(supplier, unica_id):
-    query = select(global_hotel_mapping.c[supplier]).where(global_hotel_mapping.c[supplier] == unica_id)
+def get_a_column_info(unica_id):
+    query = select(global_hotel_mapping.c.tbohotel).where(global_hotel_mapping.c.tbohotel == unica_id)
     result = session.execute(query).scalar()
     if result is None:
         print(f"DEBUG: No value found in DB for supplier '{supplier}' and ID '{unica_id}'")
@@ -100,10 +88,13 @@ class GataAPI:
 
 
 
+
+
+
 def update_global_hotel_mapping(supplier, unica_id):
      print(f"DEBUG: Starting update for {unica_id}")
 
-     hotel_data = get_a_column_info(supplier, unica_id)
+     hotel_data = get_a_column_info(unica_id)
      if hotel_data is None:
          print(f"Skipping update for {unica_id} because hotel_data is None")
          return
@@ -143,6 +134,8 @@ def update_global_hotel_mapping(supplier, unica_id):
 
 
 
+
+
      # Initialize update values dictionary
      values_to_update = {}
 
@@ -161,7 +154,7 @@ def update_global_hotel_mapping(supplier, unica_id):
      final_update_values = {}
      if existing_record:
          final_update_values["GiataCode"] = giata_id
-         final_update_values["mapStatus"] = "G-Done"
+         final_update_values["mapStatus"] = "T-Done"
 
      for column, value in values_to_update.items():
          try:
@@ -170,6 +163,7 @@ def update_global_hotel_mapping(supplier, unica_id):
              print(f"Error getting attribute {column} for record {unica_id}: {e}")
              current_val = None
 
+         # Assign new value only if column is empty
          if value is not None and not current_val:
              final_update_values[column] = value
          else:
@@ -198,8 +192,6 @@ def update_global_hotel_mapping(supplier, unica_id):
              session.rollback()
      else:
          print(f"No changes made for: {unica_id}")
-
-
 
 
 def initialize_tracking_file(file_path, systemid_list):
@@ -257,6 +249,6 @@ def update_and_save_function(supplier_code, file_path):
 
 
 # Execution
-supplier_code = "goglobal"
+supplier_code = "TravelBoutiqueOnline"
 file_path = os.path.join(FILE_PATH, f"{supplier_code}_supplier_hotel_id_list.txt")
 update_and_save_function(supplier_code, file_path)
