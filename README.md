@@ -55,7 +55,6 @@ The Global Hotel Mapping project is designed to map and manage hotel data from v
    edit 2nd last line this section 'supplier = "grnconnet"'. Here is an example of grnconnect supplier.
 
 ### Then go to 'for_supplier' repository and run the code as you need for uploaded data.
-    
     ```sh
     python goglobal_data_insert_into_GHM.py
     ```
