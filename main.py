@@ -133,3 +133,34 @@ def append_to_cannot_find_file(file_path, systemid):
 
 
 
+
+
+
+
+def update_and_save_function(file_path):
+    vervotech_id_list = read_tracking_file(file_path)
+    
+    if not vervotech_id_list:
+        print(f"No Vervotech Id to process in {file_path}")
+        return
+
+    vervotech_id_list = list(vervotech_id_list) 
+
+    index = 0
+    while index < len(vervotech_id_list):
+        vervotech_id = vervotech_id_list[index]
+        try:
+            update_global_hotel_mapping(vervotech_id)
+            
+            vervotech_id_list.pop(index)
+            
+            write_tracking_file(file_path, vervotech_id_list)
+
+        except Exception as e:
+            print(f"Error processing Vervotech {vervotech_id}: {e}")
+            append_to_cannot_find_file("cannot_find_file.txt", vervotech_id)
+
+file = "D:/Rokon/ofc_git/global_hotel_mapping/static/file/id_list_file.txt"
+update_and_save_function(file)
+
+
