@@ -61,3 +61,5 @@ The Global Hotel Mapping project is designed to map and manage hotel data from v
 
     
 
+    
+
