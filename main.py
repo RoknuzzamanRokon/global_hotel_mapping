@@ -5,6 +5,8 @@ import os
 
 load_dotenv()
 
+FILE_PATH = os.getenv('FIND_ID_FILE_PATH')
+
 db_host = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASSWORD')
@@ -160,7 +162,7 @@ def update_and_save_function(file_path):
             print(f"Error processing Vervotech {vervotech_id}: {e}")
             append_to_cannot_find_file("cannot_find_file.txt", vervotech_id)
 
-file = "D:/Rokon/ofc_git/global_hotel_mapping/static/file/id_list_file.txt"
+file = os.path.join(FILE_PATH, "id_list_file.txt")
 update_and_save_function(file)
 
 

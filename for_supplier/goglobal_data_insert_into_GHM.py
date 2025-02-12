@@ -22,7 +22,7 @@ import time
 
 load_dotenv()
 
-
+FILE_PATH = os.getenv('FIND_ID_FILE_PATH')
 # Database connection
 db_host = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
@@ -257,5 +257,6 @@ def update_and_save_function(supplier_code, file_path):
 
 # Execution
 supplier_code = "goglobal"
+file_path = os.path.join(FILE_PATH, f"{supplier_code}_supplier_hotel_id_list.txt")
 file_path = f"D:/Rokon/ofc_git/global_hotel_mapping/static/file/{supplier_code}_supplier_hotel_id_list.txt"
 update_and_save_function(supplier_code, file_path)
