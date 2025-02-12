@@ -33,3 +33,57 @@ def get_a_column_info_follow_a_id(unica_id):
     )
     result = session.execute(query).mappings().all()
     return result
+
+
+
+def update_global_hotel_mapping(unica_id):
+    records = get_a_column_info_follow_a_id(unica_id)
+
+    provider_mappings = {
+            "hotelbeds": ["hotelbeds", "hotelbeds_a", "hotelbeds_b", "hotelbeds_c", "hotelbeds_d", "hotelbeds_e"],
+            "agoda": ["agoda", "agoda_a", "agoda_b", "agoda_c", "agoda_d", "agoda_e"],
+            "tbo": ["tbohotel", "tbohotel_a", "tbohotel_b", "tbohotel_c", "tbohotel_d", "tbohotel_e"],
+            "ean": ["ean", "ean_a", "ean_b", "ean_c", "ean_d", "ean_e"],
+            "mgholiday": ["mgholiday", "mgholiday_a", "mgholiday_b", "mgholiday_c", "mgholiday_d", "mgholiday_e"],
+            "restel": ["restel", "restel_a", "restel_b", "restel_c", "restel_d", "restel_e"],
+            "stuba": ["stuba", "stuba_a", "stuba_b", "stuba_c", "stuba_d", "stuba_e"],
+            "hyperguestdirect": ["hyperguestdirect", "hyperguestdirect_a", "hyperguestdirect_b", "hyperguestdirect_c", "hyperguestdirect_d", "hyperguestdirect_e"],
+            "goglobal": ["goglobal", "goglobal_a", "goglobal_b", "goglobal_c", "goglobal_d", "goglobal_e"],
+            "ratehawkhotel": ["ratehawkhotel", "ratehawkhotel_a", "ratehawkhotel_b", "ratehawkhotel_c", "ratehawkhotel_d", "ratehawkhotel_e"],
+            "adivahotel": ["adivahahotel", "adivahahotel_a", "adivahahotel_b", "adivahahotel_c", "adivahahotel_d", "adivahahotel_e"],
+            "grnconnect": ["grnconnect", "grnconnect_a", "grnconnect_b", "grnconnect_c", "grnconnect_d", "grnconnect_e"],
+            "juniperhotel": ["juniperhotel", "juniperhotel_a", "juniperhotel_b", "juniperhotel_c", "juniperhotel_d", "juniperhotel_e"],
+            "mikihotel": ["mikihotel", "mikihotel_a", "mikihotel_b", "mikihotel_c", "mikihotel_d", "mikihotel_e"],
+            "paximumhotel": ["paximumhotel", "paximumhotel_a", "paximumhotel_b", "paximumhotel_c", "paximumhotel_d", "paximumhotel_e"],
+            "adonishotel": ["adonishotel", "adonishotel_a", "adonishotel_b", "adonishotel_c", "adonishotel_d", "adonishotel_e"],
+            "w2mhotel": ["w2mhotel", "w2mhotel_a", "w2mhotel_b", "w2mhotel_c", "w2mhotel_d", "w2mhotel_e"],
+            "oryxhotel": ["oryxhotel", "oryxhotel_a", "oryxhotel_b", "oryxhotel_c", "oryxhotel_d", "oryxhotel_e"],
+            "dotw": ["dotw", "dotw_a", "dotw_b", "dotw_c", "dotw_d", "dotw_e"],
+            "hotelston": ["hotelston", "hotelston_a", "hotelston_b", "hotelston_c", "hotelston_d", "hotelston_e"],
+            "letsflyhotel": ["letsflyhotel", "letsflyhotel_a", "letsflyhotel_b", "letsflyhotel_c", "letsflyhotel_d", "letsflyhotel_e"],
+            "illusionshotel": ["illusionshotel"]
+            }
+
+    values_to_update = {key: None for sublist in provider_mappings.values() for key in sublist}
+
+    for record in records:
+        provider_family = record["ProviderFamily"].lower()
+        
+        if provider_family in provider_mappings:
+            for key in provider_mappings[provider_family]:
+                if not values_to_update[key]:
+                    values_to_update[key] = record["ProviderHotelId"]
+                    break  
+
+    # Prepare and execute the update query
+    query = (
+        update(global_hotel_mapping)
+        .where(global_hotel_mapping.c.VervotechId == unica_id)
+        .values(**values_to_update, mapStatus="Done")  
+    )
+
+    session.execute(query)
+    session.commit()
+    print(f"Successful update: {unica_id}")
+
+
