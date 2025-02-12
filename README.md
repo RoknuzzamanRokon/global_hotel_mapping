@@ -25,7 +25,7 @@ The Global Hotel Mapping project is designed to map and manage hotel data from v
     ```
 
 ## Setup Environment
-### Required credentials to add in the .env file in project directory:
+### Required credentials to add to the .env file in the project directory:
 
 #### 2.1 Database connection credentials
 - Database URL set it as a 'DB_HOST' this name string
@@ -48,13 +48,13 @@ The Global Hotel Mapping project is designed to map and manage hotel data from v
     This is used for mapping first-time data vervotech mapping to global mapping table.
 
 
-### Go to 'find_id' repository and genarate id details for follow database, Here if try to 'grnconnect' hotel. Follow below stap:
+### Go to 'find_id' repository and generate id details for follow database, Here try to 'grnconnect' hotel. Follow the below steps:
    ```sh
      vim get_supplier_hotel_id_list.py  
    ```
-   edit 2nd last line this section 'supplier = "grnconnet"'. Here give example for grnconnect supplier.
+   edit 2nd last line this section 'supplier = "grnconnet"'. Here is an example of grnconnect supplier.
 
-### Then go to 'for_supplier' repository and run code as you needed for uploaded data.
+### Then go to 'for_supplier' repository and run the code as you need for uploaded data.
     
     ```sh
     python goglobal_data_insert_into_GHM.py
