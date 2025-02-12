@@ -17,6 +17,11 @@ db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASSWORD')
 db_name = os.getenv('DB_NAME')
 connection_string = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
+
+# This section for API credential.
+API_KEY = os.getenv('GIATA_API_KEY')
+GIATA_URL = os.getenv('GIATA_API_URL')
+
 # engine = create_engine(connection_string)
 engine = create_engine(
     connection_string,
@@ -41,8 +46,8 @@ def get_a_column_info(unica_id):
 
 class GataAPI:
     def __init__(self):
-        self.base_url = "http://ghgml.giatamedia.com/webservice/rest/1.0/mappings"
-        self.headers = {'Authorization': 'Basic Z2lhdGF8bm9mc2hvbi10b3Vycy5jb206Tm9mc2hvbjEyMy4='}
+        self.base_url =  GIATA_URL
+        self.headers = {'Authorization': f'Basic {API_KEY}'}
 
     def get_hotel_data_using_hotel_id(self, supplier_code, hotel_id):
         url = f"{self.base_url}/{supplier_code}/{hotel_id}"
