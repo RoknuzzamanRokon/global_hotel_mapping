@@ -35,7 +35,7 @@ def get_a_column_info(unica_id):
     query = select(global_hotel_mapping.c.tbohotel).where(global_hotel_mapping.c.tbohotel == unica_id)
     result = session.execute(query).scalar()
     if result is None:
-        print(f"DEBUG: No value found in DB for supplier '{supplier}' and ID '{unica_id}'")
+        print(f"DEBUG: No value found in DB for supplier and ID '{unica_id}'")
     return result
 
 
